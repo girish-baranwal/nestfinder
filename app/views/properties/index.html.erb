@@ -1,0 +1,53 @@
+<%= form_with url: properties_path, method: :get, local: true, class: "form-inline my-2 my-lg-0" do %>
+  <%= text_field_tag :query, params[:query], placeholder: "Search a locality or landmark", class: "form-control mr-sm-2", style: "width: 400px;" %>
+  <%= submit_tag "Search", class: "btn btn-outline-success my-2 my-sm-0" %>
+<% end %>
+
+<br>
+<br>
+
+<h1>Listed Properties</h1>
+
+<!--<table>-->
+<!--  <thead>-->
+<!--    <tr>-->
+<!--      <th colspan="3"></th>-->
+<!--    </tr>-->
+<!--  </thead>-->
+
+<!--  <tbody>-->
+    <%# @properties.each do |property| %>
+<!--      <tr>-->
+<!--        <td><%#= link_to 'Show', property %></td>-->
+<!--        <td><%#= link_to 'Edit', edit_property_path(property) %></td>-->
+<!--        <td><%#= link_to 'Destroy', property, method: :delete, data: { confirm: 'Are you sure?' } %></td>-->
+<!--      </tr>-->
+    <%# end %>
+<!--  </tbody>-->
+<!--</table>-->
+
+
+
+<% @properties.each do |property| %>
+  <div>
+    <h2><%= property.title %></h2>
+    <p>Rent: <%= property.price %> | City: <%= property.city %></p>
+    <% if property.images.present? %>
+      <% property.images.first(3).each do |image| %>
+        <%= link_to image_tag(image, size: "200x200"), url_for(image), target: "_blank" %>
+      <% end %>
+    <% end %>
+  </div>
+  <br>
+  <%= link_to 'View Property', property_path(property), class: "btn btn-primary" %>
+  <%= link_to 'Edit', edit_property_path(property), class:"btn btn-secondary" %>
+  <%= link_to 'Delete', property, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+<% end %>
+
+<br>
+<br>
+
+<%= link_to 'Post New Property', new_property_path, class:"btn btn-success" %>
+
+<br>
+<br>

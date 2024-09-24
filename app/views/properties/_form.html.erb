@@ -1,0 +1,92 @@
+<%= form_with(model: @property, local: true) do |form| %>
+  <% if property.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(property.errors.count, "error") %> prohibited this property from being saved:</h2>
+
+      <ul>
+        <% property.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :title %>
+    <%= form.text_area :title, class:"form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :price %>
+    <%= form.text_field :price, class:"form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :description %>
+    <%= form.text_area :description, class:"form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :address_line_1 %>
+    <%= form.text_field :address_line_1, class:"form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :address_line_2 %>
+    <%= form.text_field :address_line_2, class:"form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :city %>
+    <%= form.text_field :city, class:"form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :postal_code %>
+    <%= form.text_field :postal_code, class:"form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :status %>
+    <%= form.text_field :status, class:"form-control" %>
+  </div>
+
+  <% if @property.images.attached? %>
+    <div class="form-group">
+      <label>Existing Images</label>
+      <div class="row">
+        <% @property.images.each do |image| %>
+          <div class="col-md-3">
+            <!-- Display the image -->
+            <%= link_to image_tag(image, size: "200x200"), url_for(image), target: "_blank" %>
+            <!-- Delete Checkbox -->
+            <div class="form-check">
+              <%= check_box_tag "property[remove_images][]", image.id, false, class: "form-check-input" %>
+              <%= label_tag "property[remove_images][]", "Delete", class: "form-check-label" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+
+  <div class="field form-group">
+    <%= form.label :images, "Upload Images" %>
+    <%= form.file_field :images, multiple: true, class:"form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :latitude %>
+    <%= form.text_field :latitude, class:"form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :longitude %>
+    <%= form.text_field :longitude, class:"form-control" %>
+  </div>
+
+  <br>
+
+  <%= form.submit class:'btn btn-primary' %>
+<% end %>

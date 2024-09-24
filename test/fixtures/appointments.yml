@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  property: one
+  user: one
+  scheduled_time: 2024-09-16 23:08:01
+  status: MyString
+
+two:
+  property: two
+  user: two
+  scheduled_time: 2024-09-16 23:08:01
+  status: MyString

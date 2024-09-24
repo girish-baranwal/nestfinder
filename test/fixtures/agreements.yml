@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  property: one
+  tenant: one
+  owner: one
+  start_date: 2024-09-16
+  end_date: 2024-09-16
+  rent_amount: 
+  rent_amount: 
+  status: MyString
+
+two:
+  property: two
+  tenant: two
+  owner: two
+  start_date: 2024-09-16
+  end_date: 2024-09-16
+  rent_amount: 
+  rent_amount: 
+  status: MyString

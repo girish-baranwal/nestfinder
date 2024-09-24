@@ -1,0 +1,17 @@
+<h1>NestFinder</h1>
+<p>Find your next home without any hassle!</p>
+
+<!--<div>-->
+<!--  <form class="form-inline my-2 my-lg-0">-->
+<!--    <input class="form-control mr-sm-2" type="search" placeholder="Search a locality or landmark" aria-label="Search" style="width: 400px;">-->
+<!--    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+<!--  </form>-->
+<!--</div>-->
+
+<div>
+  <%= form_with url: properties_path, method: :get, local: true, class: "form-inline my-2 my-lg-0" do %>
+    <%= text_field_tag :query, params[:query], placeholder: "Search a locality or landmark", class: "form-control mr-sm-2", style: "width: 400px;" %>
+    <%= submit_tag "Search", class: "btn btn-outline-success my-2 my-sm-0" %>
+  <% end %>
+</div>
+

@@ -1,0 +1,12 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Keeps it on top of other elements */
+  background-color: white; /* Ensure the header has a background */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Optional: adds a shadow for better visibility */
+}
