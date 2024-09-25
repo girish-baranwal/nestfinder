@@ -1,0 +1,8 @@
+<%= form_with(model: [property, comment], local: true) do |form| %>
+  <div class="form-group">
+    <%= form.label :body, "Comment" %>
+    <%= form.text_area :body, class: 'form-control' %>
+  </div>
+
+  <%= form.submit comment.persisted? ? 'Update Comment' : 'Post Comment', class: 'btn btn-primary' %>
+<% end %>

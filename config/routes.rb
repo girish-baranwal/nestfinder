@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   devise_for :users
   resources :properties do
-    resources :comments
+    resources :comments, only: [:create, :edit, :update, :destroy]
     collection do
       get 'owner_dashboard'
     end

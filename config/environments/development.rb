@@ -21,7 +21,7 @@ Rails.application.configure do
     config.action_controller.enable_fragment_cache_logging = true
 
     config.cache_store = :redis_cache_store, {
-      url: 'redis://localhost:6379/1', # Ensure to set REDIS_URL for production
+      url: 'redis://localhost:6379/1',
       namespace: 'nestfinder_cache_dev',
       expires_in: 1.hour # Adjust expiry time as needed
     }
@@ -84,5 +84,7 @@ Rails.application.configure do
     address: '127.0.0.1',
     port: 1025
   }
+
+  config.log_level = :debug
 
 end
