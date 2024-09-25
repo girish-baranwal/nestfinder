@@ -6,6 +6,13 @@ Rails.application.routes.draw do
   devise_for :users
   resources :properties do
     resources :comments
+    collection do
+      get 'owner_dashboard'
+    end
+    member do
+      get 'contact', to: 'properties#new_contact'
+      post 'contact', to: 'properties#send_contact'
+    end
   end
   # resources :users
   # get 'home/index'

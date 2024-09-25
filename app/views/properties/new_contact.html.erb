@@ -1,0 +1,15 @@
+<h1>Contact Property Owner</h1>
+
+<%= form_with url: contact_property_path(@property), local: true do %>
+  <div class="form-group">
+    <%= label_tag :email, "Your Email" %>
+    <%= text_field_tag :email, @user_email, class: 'form-control', readonly: true %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :message, "Your Message" %>
+    <%= text_area_tag :message, nil, class: 'form-control' %>
+  </div>
+
+  <%= submit_tag 'Send Message', class: 'btn btn-primary' %>
+<% end %>

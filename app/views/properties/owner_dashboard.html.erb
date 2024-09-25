@@ -1,0 +1,28 @@
+<h1>Property Owner Dashboard</h1>
+<br>
+<%= link_to 'Post New Property', new_property_path, class: 'btn btn-success' %>
+<br><br>
+<h2>Your Listed Properties</h2>
+
+<% if @properties.any? %>
+  <% @properties.each do |property| %>
+    <div>
+      <h2><%= link_to property.title, property_path(property) %></h2>
+      <p>Rent: <%= property.price %> | City: <%= property.city %></p>
+      <% if property.images.present? %>
+        <% property.images.first(3).each do |image| %>
+          <%= link_to image_tag(image, size: "200x200"), url_for(image), target: "_blank" %>
+        <% end %>
+      <% end %>
+    </div>
+    <br>
+
+    <% if property.user == current_user %>
+      <%= link_to 'Edit', edit_property_path(property), class:"btn btn-secondary" %>
+      <%= link_to 'Delete', property, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+    <% end %>
+    <br><br>
+  <% end %>
+<% else %>
+  <p>No properties found. You can <%= link_to 'post a new property', new_property_path %> now.</p>
+<% end %>

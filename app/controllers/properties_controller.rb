@@ -1,6 +1,27 @@
 class PropertiesController < ApplicationController
 
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_property, only: [:show, :edit, :update, :destroy]
+
+  def new_contact
+    @property = Property.find(params[:id])
+    @user_email = current_user.email
+  end
+
+  def send_contact
+    @property = Property.find(params[:id])
+    sender_email = params[:email]
+    message = params[:message]
+
+    # Call the mailer to send the email
+    PropertyMailer.contact_owner(@property, message, sender_email).deliver_now
+
+    redirect_to @property, notice: 'Your message has been sent to the property owner.'
+  end
+
+  def owner_dashboard
+    @properties = current_user.properties # Assuming current_user owns properties
+  end
 
   def index
     if params[:query].present? && params[:query].strip != ''

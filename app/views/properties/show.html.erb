@@ -24,15 +24,9 @@
 
 <br>
 
-<!-- Link to Edit Property -->
-<%= link_to 'Edit Property', edit_property_path(@property), class: "btn btn-primary" %>
-
-<!-- Link to Delete Property -->
-<%= link_to 'Delete Property', @property, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
-
-<!-- Back to Properties List -->
 <%= link_to 'Back to Properties', properties_path, class: "btn btn-secondary" %>
 
+<%= link_to 'Contact Owner', contact_property_path(@property), class: "btn btn-primary" %>
 <hr>
 
 <!-- Comments Section -->
