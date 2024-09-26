@@ -1,14 +1,5 @@
 <h2>Edit Comment</h2>
 
-<%#= form_with(model: [@comment.property, @comment], local: true) do |form| %>
-<!--  <div class="form-group">-->
-    <%#= form.label :body, "Edit Comment" %>
-    <%#= form.text_area :body, class: 'form-control' %>
-<!--  </div>-->
-
-  <%#= form.submit 'Update Comment', class: 'btn btn-primary' %>
-<%# end %>
-
 <%= render 'comments/form', property: @comment.property, comment: @comment %>
 
 <%= link_to 'Back to Property', @comment.property %>

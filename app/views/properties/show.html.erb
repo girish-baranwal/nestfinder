@@ -33,16 +33,7 @@
 <% if user_signed_in? %>
   <h4>Add a Comment</h4>
 
-  <%= form_with model: [@property, Comment.new], local: true do |f| %>
-    <div class="form-group">
-      <%= f.label :body, "Your Comment" %>
-      <%= f.text_area :body, class: "form-control", rows: 5 %>
-    </div>
-
-    <div class="form-group">
-      <%= f.submit "Submit", class: "btn btn-primary" %>
-    </div>
-  <% end %>
+  <%= render 'comments/form', property: @property, comment: Comment.new %>
 
 <% end %>
 
