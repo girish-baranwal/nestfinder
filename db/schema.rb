@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_09_24_112344) do
+ActiveRecord::Schema.define(version: 2024_09_30_064853) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -53,17 +53,21 @@ ActiveRecord::Schema.define(version: 2024_09_24_112344) do
 
   create_table "agreements", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "property_id", null: false
-    t.bigint "tenant_id", null: false
     t.bigint "owner_id", null: false
     t.date "start_date"
     t.date "end_date"
-    t.decimal "rent_amount", precision: 10
     t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "city"
+    t.decimal "rent_amount", precision: 10
+    t.decimal "deposit_amount", precision: 10
+    t.decimal "maintenance_amount", precision: 10
+    t.integer "duration"
+    t.decimal "tenant_name", precision: 10
+    t.decimal "tenant_email", precision: 10
     t.index ["owner_id"], name: "index_agreements_on_owner_id"
     t.index ["property_id"], name: "index_agreements_on_property_id"
-    t.index ["tenant_id"], name: "index_agreements_on_tenant_id"
   end
 
   create_table "appointments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -171,7 +175,6 @@ ActiveRecord::Schema.define(version: 2024_09_24_112344) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "agreements", "properties"
   add_foreign_key "agreements", "users", column: "owner_id"
-  add_foreign_key "agreements", "users", column: "tenant_id"
   add_foreign_key "appointments", "properties"
   add_foreign_key "appointments", "users"
   add_foreign_key "bookmarks", "properties"

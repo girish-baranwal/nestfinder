@@ -25,12 +25,17 @@
 <br>
 
 <%= link_to 'Back to Properties', properties_path, class: "btn btn-secondary" %>
+<% if user_signed_in? && current_user == @property.user%>
+  <%= link_to 'Rental Agreement', property_agreements_path(@property), class: "btn btn-secondary" %>
+<% end %>
 
-<%= link_to 'Contact Owner', contact_property_path(@property), class: "btn btn-primary" %>
 <hr>
 
 <!-- Comment Form -->
 <% if user_signed_in? %>
+  <% if current_user != @property.user %>
+    <%= link_to 'Contact Owner', contact_property_path(@property), class: "btn btn-primary" %>
+  <% end %>
   <h4>Add a Comment</h4>
 
   <%= render 'comments/form', property: @property, comment: Comment.new %>

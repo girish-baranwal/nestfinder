@@ -1,0 +1,16 @@
+<h2>Rental Agreements for <%= @property.title %></h2>
+
+<% if @agreements.any? %>
+  <ul>
+    <% @agreements.each do |agreement| %>
+      <li>
+        <%= link_to "Agreement ##{agreement.id}", agreement_path(agreement) %>
+        (<%= agreement.start_date.strftime('%Y-%m-%d') %> to <%= agreement.end_date.strftime('%Y-%m-%d') %>)
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No agreements found for the last 3 years.</p>
+<% end %>
+
+<%= link_to 'Create New Agreement', new_property_agreement_path(@property), class: 'btn btn-primary' %>

@@ -20,6 +20,7 @@ Rails.application.configure do
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
 
+    # config.cache_store = :memory_store
     config.cache_store = :redis_cache_store, {
       url: 'redis://localhost:6379/1',
       namespace: 'nestfinder_cache_dev',
@@ -86,5 +87,7 @@ Rails.application.configure do
   }
 
   config.log_level = :debug
+
+  config.action_controller.action_on_unpermitted_parameters = :log
 
 end

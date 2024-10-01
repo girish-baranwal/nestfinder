@@ -30,19 +30,5 @@ class Property < ApplicationRecord
   belongs_to :user
   has_many_attached :images
   has_many :comments, dependent: :destroy
-
-  # include Elasticsearch::Model
-  # include Elasticsearch::Model::Callbacks
-  #
-  # # Add search method for custom search logic
-  # def self.search(query)
-  #   __elasticsearch__.search({
-  #                              query: {
-  #                                multi_match: {
-  #                                  query: query,
-  #                                  fields: ['description', 'title', 'city', 'postal_code']
-  #                                }
-  #                              }
-  #                            })
-  # end
+  has_many :agreements
 end

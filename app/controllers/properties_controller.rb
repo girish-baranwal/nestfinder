@@ -3,6 +3,7 @@ class PropertiesController < ApplicationController
   # before_action :authenticate_user!, except: [:index, :show]
   before_action :set_property, only: [:show, :edit, :update, :destroy]
   before_action :authorize_owner!, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:owner_dashboard]
 
   def new_contact
     @property = Property.find(params[:id])
@@ -24,9 +25,38 @@ class PropertiesController < ApplicationController
     @properties = current_user.properties # Assuming current_user owns properties
   end
 
+  # def index
+  #   if params[:query].present? && params[:query].strip != ''
+  #     # Temporarily bypass cache for the search query
+  #     Rails.logger.debug("Cache bypass for search query: #{params[:query].strip}")
+  #
+  #     # Execute the search query without caching
+  #     @properties = Property.search(params[:query], fields: [:description, :title, :city, :postal_code, :address_line_1, :address_line_2])
+  #     @properties = @properties.where.not(user_id: current_user.id) if current_user # Exclude current user's properties
+  #
+  #     # Ensure @properties is an ActiveRecord relation to allow further chaining
+  #     if @properties.is_a?(ActiveRecord::Relation)
+  #       @properties = @properties.where.not(user_id: current_user.id) if current_user
+  #     else
+  #       # Convert the search result to an array and apply filtering
+  #       @properties = @properties.to_a.reject { |property| property.user_id == current_user.id } if current_user
+  #     end
+  #
+  #     Rails.logger.debug("Query executed, properties count: #{@properties.count}")
+  #   else
+  #     # Temporarily bypass cache for all properties
+  #     Rails.logger.debug("Cache bypass for all properties")
+  #
+  #     # Fetch all properties without caching
+  #     @properties = Property.all
+  #     @properties = @properties.where.not(user_id: current_user.id) if current_user # Exclude current user's properties
+  #   end
+  # end
+
+
   def index
     if params[:query].present? && params[:query].strip != ''
-      cache_key = "properties_search_#{params[:query].strip}" # Create a cache key based on the search query
+      cache_key = "properties_search_#{params[:query].strip}_user_#{current_user&.id || 'guest'}" # Use 'guest' if no user is logged in
 
       # loggers
       Rails.logger.debug("Cache Key: #{cache_key}")
@@ -38,16 +68,28 @@ class PropertiesController < ApplicationController
 
       @properties = Rails.cache.fetch(cache_key, expires_in: 10.minutes) do
         properties = Property.search(params[:query], fields: [:description, :title, :city, :postal_code, :address_line_1, :address_line_2])
+
+        # Ensure @properties is an ActiveRecord relation to allow further chaining
+        if properties.is_a?(ActiveRecord::Relation)
+          properties = properties.where.not(user_id: current_user.id) if current_user
+        else
+          # Convert the search result to an array and apply filtering
+          properties = properties.to_a.reject { |property| property.user_id == current_user.id } if current_user
+        end
+
         Rails.logger.debug("Query executed, properties count: #{properties.count}")
         properties
       end
     else
-      cache_key = 'properties_all' # Cache key for all properties without a search query
+      cache_key = "properties_all_user_#{current_user&.id || 'guest'}" # Use 'guest' for no user logged in
       @properties = Rails.cache.fetch(cache_key, expires_in: 10.minutes) do
-        Property.all
+        properties = Property.all
+        properties = properties.where.not(user_id: current_user.id) if current_user
+        properties
       end
     end
   end
+
 
   def new
     # @property = Property.new
@@ -63,6 +105,8 @@ class PropertiesController < ApplicationController
     @property = Rails.cache.fetch(cache_key, expires_in: 10.minutes) do
       Property.find(params[:id])
     end
+
+    # @current_year_agreement = @property.agreements
   end
 
 
@@ -110,6 +154,14 @@ class PropertiesController < ApplicationController
     Rails.cache.delete('properties_all') # Invalidate the cache for the index view
     redirect_to properties_url, notice: 'Property was successfully destroyed.'
   end
+
+  def show_agreement
+    @property = Property.find(params[:id])
+
+    # Find the current year's agreement for the property
+    @current_year_agreement = @property.agreements.find_by("extract(year from start_date) = ?", Date.current.year)
+  end
+
 
   private
 

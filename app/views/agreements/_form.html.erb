@@ -1,0 +1,39 @@
+<%= form_with(model: [@property, @agreement], local: true) do |form| %>
+<%#= form_with(model: @agreement, url: property_agreements_path(@property), local: true) do |form| %>
+  <div class="form-group">
+    <%= form.label :rent_amount %>
+    <%= form.number_field :rent_amount, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :maintenance_amount %>
+    <%= form.number_field :maintenance_amount, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :deposit_amount %>
+    <%= form.number_field :deposit_amount, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :tenant_name %>
+    <%= form.text_field :tenant_name, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :tenant_email %>
+    <%= form.email_field :tenant_email, class: 'form-control' %>
+  </div>
+
+<!--  <div class="form-group">-->
+    <%#= form.label :start_date %>
+    <%#= form.date_select :start_date, class: 'form-control' %>
+<!--  </div>-->
+
+<!--  <div class="form-group">-->
+    <%#= form.label :end_date %>
+    <%#= form.date_select :end_date, class: 'form-control' %>
+<!--  </div>-->
+
+  <%= form.submit 'Create Agreement', class: 'btn btn-primary' %>
+<% end %>

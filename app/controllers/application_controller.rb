@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :log_cache
+  # rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   protected
 
@@ -12,6 +13,10 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  # def record_not_found
+  #   render file: "#{Rails.root}/public/404.html", status: :not_found
+  # end
 
   def log_cache
     Rails.cache.instance_variable_set(:@data, ActiveSupport::Cache::MemoryStore.new)

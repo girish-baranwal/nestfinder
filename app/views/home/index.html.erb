@@ -10,7 +10,7 @@
 
 <div>
   <%= form_with url: properties_path, method: :get, local: true, class: "form-inline my-2 my-lg-0" do %>
-    <%= text_field_tag :query, params[:query], placeholder: "Search a locality or landmark", class: "form-control mr-sm-2", style: "width: 400px;" %>
+    <%= text_field_tag :query, params[:query], placeholder: "Search a locality", class: "form-control mr-sm-2", style: "width: 400px;" %>
     <%= submit_tag "Search", class: "btn btn-outline-success my-2 my-sm-0" %>
   <% end %>
 </div>
