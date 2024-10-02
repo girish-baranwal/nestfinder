@@ -1,11 +1,15 @@
 class AgreementsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_property, only: [:index, :new, :create]
+  before_action :set_property, only: [:index, :show, :new, :create]
   before_action :set_agreement, only: [:show, :edit, :update, :destroy, :destroy_document]
 
 
   def index
     @agreements = @property.agreements.recent_three_years
+  end
+
+  def show
+
   end
   def new
     @agreement = @property.agreements.build
@@ -15,18 +19,16 @@ class AgreementsController < ApplicationController
     Rails.logger.debug "Full Params: #{params.inspect}"
 
     # Explicitly permit the whole parameters if needed
-    permitted_params = params.permit(:property_id, :authenticity_token, :commit, :controller, :action, agreement: [:rent_amount, :maintenance_amount, :deposit_amount, :tenant_name, :tenant_email])
+    permitted_params = params.permit(:property_id, agreement: [:rent_amount, :maintenance_amount, :deposit_amount, :tenant_name, :tenant_email])
 
-    Rails.logger.debug "Permitted Params: #{permitted_params.inspect}"
+    # Rails.logger.debug "Permitted Params: #{permitted_params.inspect}"
 
     @agreement = Agreement.new(agreement_params)
     @agreement.property = Property.find(params[:property_id])
-    # @agreement = Agreement.new(agreement_params)
 
     @agreement.owner = current_user
-    # @agreement.property = @property
+    @agreement.property = @property
     # @agreement.city = @property.city
-    # @agreement.property = Property.find(params[:property_id])
 
     if @agreement.save
       redirect_to property_agreements_path(@property), notice: 'Agreement was successfully created.'
@@ -49,15 +51,12 @@ class AgreementsController < ApplicationController
   private
 
   def agreement_params
-    # params.require(:agreement).permit(
-    #   :rent_amount, :maintenance_amount, :deposit_amount,
-    #   :tenant_name, :tenant_email,
-    #   # :start_date, :end_date,
-    #   tenant_identifications: [], owner_documents: []
-    # )
-    params.require(:agreement).tap do |p|
-      p.permit!
-    end
+    params.require(:agreement).permit(
+      :rent_amount, :maintenance_amount, :deposit_amount,
+      :tenant_name, :tenant_email,
+      :start_date, :end_date,
+      tenant_identifications: [], owner_documents: []
+    )
   end
 
   def set_property
@@ -66,7 +65,7 @@ class AgreementsController < ApplicationController
   end
 
   def set_agreement
-    @agreement = Agreement.find(params[:id])
+    @agreement = @property.agreements.find(params[:id])
   end
 
 end

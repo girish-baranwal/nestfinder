@@ -4,7 +4,7 @@
   <ul>
     <% @agreements.each do |agreement| %>
       <li>
-        <%= link_to "Agreement ##{agreement.id}", agreement_path(agreement) %>
+        <%= link_to "Agreement ##{agreement.id}", property_agreement_path(@property, agreement) %>
         (<%= agreement.start_date.strftime('%Y-%m-%d') %> to <%= agreement.end_date.strftime('%Y-%m-%d') %>)
       </li>
     <% end %>

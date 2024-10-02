@@ -1,12 +1,12 @@
-<p><strong>Owner:</strong> <%= @agreement.owner.email %></p>
-<p><strong>Tenant:</strong> <%= @agreement.tenant.email %></p>
+<h1>Agreement Details</h1>
 
-<% if @agreement.property.present? %>
-  <p><strong>Property:</strong> <%= @agreement.property.title %> - <%= @agreement.property.address_line_1 %></p>
-<% else %>
-  <p><strong>Manual Property Address:</strong> <%= @agreement.manual_property_address %>, <%= @agreement.manual_property_city %>, <%= @agreement.manual_property_postal_code %></p>
-<% end %>
-
+<p><strong>Tenant Name:</strong> <%= @agreement.tenant_name %></p>
+<p><strong>Tenant Email:</strong> <%= @agreement.tenant_email %></p>
+<p><strong>Rent Amount:</strong> <%= number_to_currency(@agreement.rent_amount) %></p>
+<p><strong>Deposit Amount:</strong> <%= number_to_currency(@agreement.deposit_amount) %></p>
+<p><strong>Maintenance Amount:</strong> <%= number_to_currency(@agreement.maintenance_amount) %></p>
 <p><strong>Start Date:</strong> <%= @agreement.start_date %></p>
 <p><strong>End Date:</strong> <%= @agreement.end_date %></p>
-<p><strong>Property Type:</strong> <%= @agreement.property_type.humanize %></p>
+
+<%= link_to 'Edit Agreement', edit_property_agreement_path(@property, @agreement), class: 'btn btn-primary' if @agreement.status == 'draft' %>
+<%= link_to 'Back to Agreements', property_agreements_path(@property), class: 'btn btn-secondary' %>
