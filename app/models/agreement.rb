@@ -19,6 +19,20 @@ class Agreement < ApplicationRecord
     save
     # Trigger email or notification to tenant here
     NotificationMailer.notify_tenant(self).deliver_later if tenant_email.present?
+
+    tenant_user = User.find_by(email: self.tenant_email)
+
+    if tenant_user
+      # Broadcast notification via WebSocket
+      NotificationChannel.broadcast_to(
+        tenant_user,
+        message: "You have a new agreement to sign for #{self.property.title}.",
+        agreement_id: self.id,
+        property_id: self.property_id
+      )
+    else
+      Rails.logger.error "Tenant with email #{self.tenant_email} not found!"
+    end
   end
 
   def complete_agreement

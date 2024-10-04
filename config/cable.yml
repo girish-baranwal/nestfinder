@@ -1,12 +1,10 @@
-#development:
-#  adapter: async
-#  url: <%#= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
-#  channel_prefix: nestfinder_development
+development:
+  adapter: redis
+  url: redis://localhost:6379/1
+  channel_prefix: nestfinder_development
+  logging: true
 
-#test:
-#  adapter: test
-
-#production:
-#  adapter: redis
-#  url: <%#= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
-#  channel_prefix: nestfinder_production
+production:
+  adapter: redis
+  url: redis://localhost:6379/1
+  channel_prefix: nestfinder_production
