@@ -30,4 +30,49 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  devise:
+    sessions:
+      user:
+        signed_out: "Signed out successfully"
+        signed_in: "Signed in successfully."
+      signed_out: "Signed out successfully"
+      signed_in: "Signed in successfully."
+  notice:
+    language_updated: "Language updated successfully!"
+    signed_out: "Signed out successfully"
+    signed_in: "Signed in successfully."
+  menu:
+    about: "About Us"
+    sign_up: "Sign Up"
+    sign_in: "Sign In"
+    sign_out: "Sign Out"
+    edit_profile: "Edit Profile"
+    property_owners: "For Property Owners"
+  custom:
+    owner_dashboard: "Property Owner Dashboard"
+    listed_properties: "Your Listed Properties"
+    post_new_property: "Post New Property"
+    rent: "Rent"
+    city: "City"
+    contact: "Contact Us"
+  action:
+    edit: "Edit"
+    delete: "Delete"
+    search: "Search"
+  agreement:
+    back_properties: "Back to Properties"
+    rental_agreement: "Rental Agreement"
+    header: "Rental Agreements for"
+    create: "Create New Agreement"
+  user:
+    edit: "Edit User"
+    name: "Name"
+    phone_number: "Phone Number"
+    email: "Email"
+  home:
+    tagline: "Find your next home without any hassle!"
+    search: "Search a locality"
+
+
+
+

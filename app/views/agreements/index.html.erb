@@ -1,11 +1,33 @@
-<h2>Rental Agreements for <%= @property.title %></h2>
+<h2> <%= t('agreement.header') %><%= @property.title %></h2>
 
 <% if @agreements.any? %>
   <ul>
     <% @agreements.each do |agreement| %>
       <li>
-        <%= link_to "Agreement ##{agreement.id}", property_agreement_path(@property, agreement) %>
-        (<%= agreement.start_date.strftime('%Y-%m-%d') %> to <%= agreement.end_date.strftime('%Y-%m-%d') %>)
+        <%= link_to "Agreement for #{agreement.tenant_name} ", property_agreement_path(@property, agreement) %>
+        <p>Period: <%= agreement.start_date.strftime('%Y-%m-%d') %> to <%= agreement.end_date.strftime('%Y-%m-%d') %>
+          <br>
+          Status: <%= (agreement.status || 'unknown').humanize %>
+        </p>
+
+        <% if agreement.awaiting_signature? %>
+          <% if current_user.email == agreement.tenant_email %>
+            <%= link_to 'Sign Agreement', sign_by_tenant_property_agreement_path(@property, agreement) %>
+          <% end %>
+        <% end %>
+
+        <!-- If agreement is in draft and not signed by owner -->
+        <%# if agreement.draft? && !agreement.owner_signed? %>
+          <%#= link_to 'Sign Agreement',  _property_agreement_path(@property, agreement), method: :patch %>
+        <%# end %>
+
+        <!-- If owner signed but tenant has not yet signed -->
+        <%# if agreement.awaiting_signature? && agreement.owner_signed? %>
+          <%#= link_to 'Send to Tenant for Signature', send_to_tenant_property_agreement_path(@property, agreement) %>
+        <%# end %>
+
+        <%#= link_to 'Complete Agreement', complete_property_agreement_path(@property, agreement), method: :patch if agreement.awaiting_signature? %>
+
       </li>
     <% end %>
   </ul>
@@ -13,4 +35,4 @@
   <p>No agreements found for the last 3 years.</p>
 <% end %>
 
-<%= link_to 'Create New Agreement', new_property_agreement_path(@property), class: 'btn btn-primary' %>
+<%= link_to t('agreement.create'), new_property_agreement_path(@property), class: 'btn btn-primary' %>

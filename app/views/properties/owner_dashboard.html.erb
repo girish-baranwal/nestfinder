@@ -1,17 +1,17 @@
-<h1>Property Owner Dashboard</h1>
+<h1><%= t('custom.owner_dashboard') %></h1>
 <br>
-<%= link_to 'Post New Property', new_property_path, class: 'btn btn-success' %>
+<%= link_to t('custom.post_new_property'), new_property_path, class: 'btn btn-success' %>
 
 <%#= link_to 'Rental Agreement', new_agreement_path, class: 'btn btn-success' %>
 
 <br><br>
-<h2>Your Listed Properties</h2>
+<h2><%= t('custom.listed_properties') %></h2>
 
 <% if @properties.any? %>
   <% @properties.each do |property| %>
     <div>
       <h2><%= link_to property.title, property_path(property) %></h2>
-      <p>Rent: <%= property.price %> | City: <%= property.city %></p>
+      <p><%= t('custom.rent') %>: <%= property.price %> | <%= t('custom.city') %>: <%= property.city %></p>
       <% if property.images.present? %>
         <% property.images.first(3).each do |image| %>
           <%= link_to image_tag(image, size: "200x200"), url_for(image), target: "_blank" %>
@@ -21,8 +21,8 @@
     <br>
 
     <% if property.user == current_user %>
-      <%= link_to 'Edit', edit_property_path(property), class:"btn btn-secondary" %>
-      <%= link_to 'Delete', property, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+      <%= link_to t('action.edit'), edit_property_path(property), class:"btn btn-secondary" %>
+      <%= link_to t('action.delete'), property, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
     <% end %>
     <br><br>
   <% end %>

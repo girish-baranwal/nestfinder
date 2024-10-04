@@ -88,6 +88,6 @@ Rails.application.configure do
 
   config.log_level = :debug
 
-  config.action_controller.action_on_unpermitted_parameters = :log
+  # config.action_controller.action_on_unpermitted_parameters = :log
 
 end

@@ -19,6 +19,7 @@ gem 'aws-sdk-s3', '~> 1.114'
 gem 'sidekiq'
 gem 'redis', '~> 4.0'
 gem 'redis-rails'
+gem 'rails-i18n'
 
 
 

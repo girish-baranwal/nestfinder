@@ -31,4 +31,5 @@ class Property < ApplicationRecord
   has_many_attached :images
   has_many :comments, dependent: :destroy
   has_many :agreements
+  has_many :messages
 end

@@ -1,3 +1,17 @@
+<% if @agreement.errors.any? %>
+  <div id="error_explanation">
+    <h4><%= pluralize(@agreement.errors.count, "error") %> prohibited this agreement from being saved:</h4>
+
+    <ul>
+      <% @agreement.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+
+
 <%= form_with(model: [@property, @agreement], local: true) do |form| %>
 <%#= form_with(model: @agreement, url: property_agreements_path(@property), local: true) do |form| %>
   <div class="form-group">
@@ -35,5 +49,31 @@
     <%= form.date_select :end_date, class: 'form-control' %>
   </div>
 
-  <%= form.submit 'Create Agreement', class: 'btn btn-primary' %>
+  <div class="form-group">
+    <%= form.label :owner_signature, "Sign with your full name:" %>
+    <%= form.text_field :owner_signature, id: 'owner_signature', required: false %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Save as Draft', class: 'btn btn-primary' %>
+    <%= form.submit 'Send to Tenant', name: 'commit', class: 'btn btn-primary', id: 'send-to-tenant-btn', disabled: true %>
+  </div>
+  <br>
+  <!-- Send to Tenant button - initially disabled -->
+  <%#= link_to 'Send to Tenant', send_to_tenant_property_agreement_path(@property, @agreement), method: :patch, class: 'btn btn-success', id: 'send-to-tenant-btn', disabled: true %>
+
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function() {
+          const ownerSignatureField = document.getElementById("owner_signature");
+          const sendToTenantButton = document.getElementById("send-to-tenant-btn");
+
+          // Add event listener to monitor changes to the signature field
+          ownerSignatureField.addEventListener("input", function() {
+              sendToTenantButton.disabled = ownerSignatureField.value.trim() === "";
+          });
+      });
+  </script>
+
+
 <% end %>

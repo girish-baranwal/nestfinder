@@ -9,21 +9,21 @@
     <ul class="navbar-nav mr-auto">
       
       <li class="nav-item">
-        <%= link_to "About Us", home_about_path, class:"nav-link" %>
+        <%= link_to t('menu.about'), home_about_path, class:"nav-link" %>
       </li>
 
       <% if user_signed_in? %>
 
         <li class="nav-item">
-          <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class:"nav-link", data: { turbo_method: :delete } %>
+          <%= link_to t('menu.sign_out'), destroy_user_session_path, method: :delete, class:"nav-link", data: { turbo_method: :delete } %>
         </li>
 
         <li class="nav-item">
-          <%= link_to "Edit Profile", edit_user_registration_path, class:"nav-link" %>
+          <%= link_to t('menu.edit_profile'), edit_user_registration_path, class:"nav-link" %>
         </li>
 
         <li class="nav-item">
-          <%= link_to "For Property Owners", owner_dashboard_properties_path, class:"nav-link" %>
+          <%= link_to t('menu.property_owners'), owner_dashboard_properties_path, class:"nav-link" %>
         </li>
       <% else %>
         <li class="nav-item">
@@ -34,13 +34,10 @@
           <%= link_to "Sign In", new_user_session_path, class:"nav-link" %>
         </li>
       <% end %>
-
-      
-      
     </ul>
-<!--    <form class="form-inline my-2 my-lg-0">-->
-<!--      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
-<!--      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
-<!--    </form>-->
+
+    <%= form_with url: update_language_path, method: :patch, remote: true, id: "language_form" do %>
+      <%= select_tag 'language', options_for_select([['English', 'en'], ['French', 'fr']], I18n.locale), onchange: "this.form.submit()" %>
+    <% end %>
   </div>
 </nav>

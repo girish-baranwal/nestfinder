@@ -20,5 +20,7 @@ module Nestfinder
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    # config.middleware.delete ActionCable::Connection::Hijack
+
   end
 end

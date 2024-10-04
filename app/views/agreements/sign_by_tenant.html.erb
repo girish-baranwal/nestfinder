@@ -1,0 +1,12 @@
+<h1>Sign Agreement</h1>
+
+<p>Agreement for Property: <%= @agreement.property.title %></p>
+
+<%= form_with model: [@property, @agreement], url: update_by_tenant_property_agreement_path(@property, @agreement), method: :patch do |form| %>
+  <div class="form-group">
+    <%= form.label :tenant_signature, "Your Signature" %>
+    <%= form.text_field :tenant_signature, class: 'form-control' %>
+  </div>
+
+  <%= form.submit "Sign Agreement", class: 'btn btn-primary' %>
+<% end %>

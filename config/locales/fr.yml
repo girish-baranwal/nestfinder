@@ -1,0 +1,43 @@
+fr:
+  devise:
+    sessions:
+      user:
+        signed_out: "Déconnexion réussie"
+        signed_in: "Connexion réussie."
+      signed_out: "Déconnexion réussie"
+      signed_in: "Connexion réussie."
+  notice:
+    language_updated: "Langue mise à jour avec succès!"
+    signed_out: "Déconnexion réussie"
+    signed_in: "Connexion réussie."
+  menu:
+    about: "À propos de nous"
+    sign_up: "S'inscrire"
+    sign_in: "Se connecter"
+    sign_out: "Se déconnecter"
+    edit_profile: "Modifier le profil"
+    property_owners: "Pour les propriétaires"
+  custom:
+    owner_dashboard: "Tableau de bord du propriétaire"
+    listed_properties: "Vos propriétés répertoriées"
+    post_new_property: "Publier une nouvelle propriété"
+    rent: "Loyer"
+    city: "Ville"
+    contact: "Contactez-nous"
+  action:
+    edit: "Modifier"
+    delete: "Supprimer"
+    search: "Rechercher"
+  agreement:
+    back_properties: "Retour aux propriétés"
+    rental_agreement: "Contrat de location"
+    header: "Contrats de location pour"
+    create: "Créer un nouveau contrat"
+  user:
+    edit: "Modifier l'utilisateur"
+    name: "Nom"
+    phone_number: "Numéro de téléphone"
+    email: "E-mail"
+  home:
+    tagline: "Trouvez votre prochain logement sans tracas!"
+    search: "Recherchez une localité"

@@ -1,0 +1,17 @@
+<p>Hello <%= @tenant_name %>,</p>
+
+<p>A new rental agreement has been created for you. Please review and sign the agreement at your earliest convenience.</p>
+
+<p>Details:</p>
+<ul>
+  <li>Rent Amount: <%= @agreement.rent_amount %></li>
+  <li>Maintenance Amount: <%= @agreement.maintenance_amount %></li>
+  <li>Deposit Amount: <%= @agreement.deposit_amount %></li>
+  <li>Start Date: <%= @agreement.start_date %></li>
+  <li>End Date: <%= @agreement.end_date %></li>
+</ul>
+
+<p><%= link_to 'View Agreement', property_agreement_url(@agreement.property, @agreement) %></p>
+
+<p>Thank you,</p>
+<p>The Nestfinder Team</p>

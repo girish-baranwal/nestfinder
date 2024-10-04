@@ -58,6 +58,21 @@ class UsersController < ApplicationController
     end
   end
 
+  def update_language
+    if current_user
+      current_user.update(language: params[:language])
+    else
+      session[:locale] = params[:language] # Store the language in the session for guests
+    end
+
+    I18n.locale = params[:language] # Set the locale immediately
+
+    respond_to do |format|
+      format.js { render inline: "location.reload();" } # Reload the page to apply language changes
+      format.html { redirect_to request.referer || root_path, notice: I18n.t('notice.language_updated') }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_10_02_070319) do
+ActiveRecord::Schema.define(version: 2024_10_03_181128) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -66,6 +66,10 @@ ActiveRecord::Schema.define(version: 2024_10_02_070319) do
     t.integer "duration"
     t.string "tenant_name"
     t.string "tenant_email"
+    t.string "owner_signature"
+    t.datetime "owner_signed_at"
+    t.string "tenant_signature"
+    t.datetime "tenant_signed_at"
     t.index ["owner_id"], name: "index_agreements_on_owner_id"
     t.index ["property_id"], name: "index_agreements_on_property_id"
   end
@@ -156,6 +160,7 @@ ActiveRecord::Schema.define(version: 2024_10_02_070319) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.string "language"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["phone_number"], name: "index_users_on_phone_number", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

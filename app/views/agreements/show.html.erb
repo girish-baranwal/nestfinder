@@ -7,6 +7,16 @@
 <p><strong>Maintenance Amount:</strong> <%= number_to_currency(@agreement.maintenance_amount) %></p>
 <p><strong>Start Date:</strong> <%= @agreement.start_date %></p>
 <p><strong>End Date:</strong> <%= @agreement.end_date %></p>
+<p><strong>Owner Signature:</strong> <%= @agreement.owner_signature %></p>
+<p><strong>Owner Signed At:</strong> <%= @agreement.owner_signed_at %></p>
+<p><strong>Tenant Signature:</strong> <%= @agreement.tenant_signature %></p>
+<p><strong>Tenant Signed At:</strong> <%= @agreement.tenant_signed_at %></p>
 
-<%= link_to 'Edit Agreement', edit_property_agreement_path(@property, @agreement), class: 'btn btn-primary' if @agreement.status == 'draft' %>
+<% if @agreement.status == 'draft' && current_user.id == @agreement.owner_id %>
+  <%= link_to 'Edit Agreement', edit_property_agreement_path(@property, @agreement), class: 'btn btn-primary' %>
+<% elsif @agreement.status == 'awaiting_signature' && current_user.email == @agreement.tenant_email %>
+  <%= link_to 'Sign Agreement', sign_by_tenant_property_agreement_path(@property, @agreement), class: 'btn btn-primary' %>
+<% end %>
+
+
 <%= link_to 'Back to Agreements', property_agreements_path(@property), class: 'btn btn-secondary' %>
