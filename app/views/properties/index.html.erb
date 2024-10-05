@@ -8,16 +8,25 @@
 
 <h1>Listed Properties</h1>
 
-<% @properties.each do |property| %>
-  <div>
-    <h2><%= link_to property.title, property_path(property) %></h2>
-    <p>Rent: <%= property.price %> | City: <%= property.city %></p>
-    <% if property.images.present? %>
-      <% property.images.first(3).each do |image| %>
-        <%= link_to image_tag(image, size: "200x200"), url_for(image), target: "_blank" %>
+<% if @properties.any? %>
+  <% @properties.each do |property| %>
+    <div>
+      <h2><%= link_to property.title, property_path(property) %></h2>
+      <p>Rent: <%= property.price %> | City: <%= property.city %></p>
+      <% if property.images.present? %>
+        <% property.images.first(3).each do |image| %>
+          <%= link_to image_tag(image, size: "200x200"), url_for(image), target: "_blank" %>
+        <% end %>
       <% end %>
-    <% end %>
-  </div>
-  <br>
+    </div>
+    <br>
+  <% end %>
 
+  <!-- Pagination -->
+  <div class="pagination">
+    <%= paginate @properties %>
+  </div>
+
+<% else %>
+  <p>No properties found.</p>
 <% end %>

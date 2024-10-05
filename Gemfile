@@ -20,6 +20,8 @@ gem 'sidekiq'
 gem 'redis', '~> 4.0'
 gem 'redis-rails'
 gem 'rails-i18n'
+gem 'pundit'
+gem 'kaminari'
 
 
 

@@ -25,40 +25,11 @@ class PropertiesController < ApplicationController
     @properties = current_user.properties # Assuming current_user owns properties
   end
 
-  # def index
-  #   if params[:query].present? && params[:query].strip != ''
-  #     # Temporarily bypass cache for the search query
-  #     Rails.logger.debug("Cache bypass for search query: #{params[:query].strip}")
-  #
-  #     # Execute the search query without caching
-  #     @properties = Property.search(params[:query], fields: [:description, :title, :city, :postal_code, :address_line_1, :address_line_2])
-  #     @properties = @properties.where.not(user_id: current_user.id) if current_user # Exclude current user's properties
-  #
-  #     # Ensure @properties is an ActiveRecord relation to allow further chaining
-  #     if @properties.is_a?(ActiveRecord::Relation)
-  #       @properties = @properties.where.not(user_id: current_user.id) if current_user
-  #     else
-  #       # Convert the search result to an array and apply filtering
-  #       @properties = @properties.to_a.reject { |property| property.user_id == current_user.id } if current_user
-  #     end
-  #
-  #     Rails.logger.debug("Query executed, properties count: #{@properties.count}")
-  #   else
-  #     # Temporarily bypass cache for all properties
-  #     Rails.logger.debug("Cache bypass for all properties")
-  #
-  #     # Fetch all properties without caching
-  #     @properties = Property.all
-  #     @properties = @properties.where.not(user_id: current_user.id) if current_user # Exclude current user's properties
-  #   end
-  # end
-
-
   def index
     if params[:query].present? && params[:query].strip != ''
       cache_key = "properties_search_#{params[:query].strip}_user_#{current_user&.id || 'guest'}" # Use 'guest' if no user is logged in
 
-      # loggers
+      # Loggers
       Rails.logger.debug("Cache Key: #{cache_key}")
       if Rails.cache.exist?(cache_key)
         Rails.logger.debug("Fetching from cache for key: #{cache_key}")
@@ -87,6 +58,12 @@ class PropertiesController < ApplicationController
         properties = properties.where.not(user_id: current_user.id) if current_user
         properties
       end
+    end
+    # Add pagination after fetching properties
+    if @properties.is_a?(Array)
+      @properties = Kaminari.paginate_array(@properties).page(params[:page]).per(1)
+    else
+      @properties = @properties.page(params[:page]).per(1)
     end
   end
 
