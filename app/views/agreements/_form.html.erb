@@ -13,67 +13,52 @@
 
 
 <%= form_with(model: [@property, @agreement], local: true) do |form| %>
-<%#= form_with(model: @agreement, url: property_agreements_path(@property), local: true) do |form| %>
   <div class="form-group">
     <%= form.label :rent_amount %>
-    <%= form.number_field :rent_amount, class: 'form-control' %>
+    <%= form.number_field :rent_amount, class: 'form-control', required: true %>
   </div>
 
   <div class="form-group">
     <%= form.label :maintenance_amount %>
-    <%= form.number_field :maintenance_amount, class: 'form-control' %>
+    <%= form.number_field :maintenance_amount, class: 'form-control', required: true %>
   </div>
 
   <div class="form-group">
     <%= form.label :deposit_amount %>
-    <%= form.number_field :deposit_amount, class: 'form-control' %>
+    <%= form.number_field :deposit_amount, class: 'form-control', required: true %>
   </div>
 
   <div class="form-group">
     <%= form.label :tenant_name %>
-    <%= form.text_field :tenant_name, class: 'form-control' %>
+    <%= form.text_field :tenant_name, class: 'form-control', required: true %>
   </div>
 
   <div class="form-group">
     <%= form.label :tenant_email %>
-    <%= form.email_field :tenant_email, class: 'form-control' %>
+    <%= form.email_field :tenant_email, class: 'form-control', required: true %>
   </div>
 
   <div class="form-group">
     <%= form.label :start_date %>
-    <%= form.date_select :start_date, class: 'form-control' %>
+    <%= form.date_select :start_date, class: 'form-control', required: true %>
   </div>
 
   <div class="form-group">
     <%= form.label :end_date %>
-    <%= form.date_select :end_date, class: 'form-control' %>
+    <%= form.date_select :end_date, class: 'form-control', required: true %>
   </div>
 
+  <!-- Owner signature (initially disabled) -->
   <div class="form-group">
     <%= form.label :owner_signature, "Sign with your full name:" %>
-    <%= form.text_field :owner_signature, id: 'owner_signature', required: false %>
+    <%= form.text_field :owner_signature, id: 'owner_signature', required: true %>
   </div>
 
+  <!-- Action buttons -->
   <div class="actions">
     <%= form.submit 'Save as Draft', class: 'btn btn-primary' %>
-    <%= form.submit 'Send to Tenant', name: 'commit', class: 'btn btn-primary', id: 'send-to-tenant-btn', disabled: true %>
+    <%= form.submit 'Send to Tenant', class: 'btn btn-primary', id: 'send-to-tenant-btn' %>
   </div>
-  <br>
-  <!-- Send to Tenant button - initially disabled -->
-  <%#= link_to 'Send to Tenant', send_to_tenant_property_agreement_path(@property, @agreement), method: :patch, class: 'btn btn-success', id: 'send-to-tenant-btn', disabled: true %>
-
-
-  <script>
-      document.addEventListener("DOMContentLoaded", function() {
-          const ownerSignatureField = document.getElementById("owner_signature");
-          const sendToTenantButton = document.getElementById("send-to-tenant-btn");
-
-          // Add event listener to monitor changes to the signature field
-          ownerSignatureField.addEventListener("input", function() {
-              sendToTenantButton.disabled = ownerSignatureField.value.trim() === "";
-          });
-      });
-  </script>
-
 
 <% end %>
+

@@ -9,6 +9,11 @@ class Agreement < ApplicationRecord
 
   validates :start_date, :end_date, :property_id, presence: true, unless: :draft?
   validate :validate_dates
+  # validates :rent_amount, presence: true, numericality: { greater_than: 0, message: "must be a positive number" }
+  # validates :deposit_amount, presence: true, numericality: { greater_than: 0, message: "must be a positive number" }
+  # validates :maintenance_amount, presence: true, numericality: { greater_than: 0, message: "must be a positive number" }
+  # validates :tenant_name, presence: true
+  # validates :tenant_email, presence: true
   # validates :signature, presence: true, if: -> { status == 'awaiting_signature' }
 
   # Scope to retrieve agreements from the last 3 years

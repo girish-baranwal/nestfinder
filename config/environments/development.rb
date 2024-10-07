@@ -90,4 +90,13 @@ Rails.application.configure do
 
   # config.action_controller.action_on_unpermitted_parameters = :log
 
+  config.after_initialize do
+    Bullet.enable = true
+    # Bullet.alert = true  # Alerts you with a browser popup
+    Bullet.bullet_logger = true  # Logs the issue in log/bullet.log
+    Bullet.console = true  # Logs the issue in the browser console
+    Bullet.rails_logger = true  # Logs the issue in the Rails log
+  end
+
+
 end

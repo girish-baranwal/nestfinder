@@ -22,7 +22,7 @@ class PropertiesController < ApplicationController
   end
 
   def owner_dashboard
-    @properties = current_user.properties # Assuming current_user owns properties
+    @properties = Property.includes(:user, images_attachments: :blob).where(user_id: current_user.id)
   end
 
   def index
@@ -38,7 +38,7 @@ class PropertiesController < ApplicationController
       end
 
       @properties = Rails.cache.fetch(cache_key, expires_in: 10.minutes) do
-        properties = Property.search(params[:query], fields: [:description, :title, :city, :postal_code, :address_line_1, :address_line_2])
+        properties = Property.search(params[:query], fields: [:description, :title, :city, :postal_code, :address_line_1, :address_line_2]).includes(:user, images_attachments: :blob)
 
         # Ensure @properties is an ActiveRecord relation to allow further chaining
         if properties.is_a?(ActiveRecord::Relation)
@@ -54,16 +54,23 @@ class PropertiesController < ApplicationController
     else
       cache_key = "properties_all_user_#{current_user&.id || 'guest'}" # Use 'guest' for no user logged in
       @properties = Rails.cache.fetch(cache_key, expires_in: 10.minutes) do
-        properties = Property.all
+        properties = Property.includes(:user, images_attachments: :blob).all
         properties = properties.where.not(user_id: current_user.id) if current_user
         properties
       end
     end
+
+    if @properties.is_a?(ActiveRecord::Relation)
+      @properties = @properties.order(created_at: :desc)
+    else
+      @properties = @properties.sort_by(&:created_at).reverse # For array of properties
+    end
+
     # Add pagination after fetching properties
     if @properties.is_a?(Array)
-      @properties = Kaminari.paginate_array(@properties).page(params[:page]).per(1)
+      @properties = Kaminari.paginate_array(@properties).page(params[:page]).per(3)
     else
-      @properties = @properties.page(params[:page]).per(1)
+      @properties = @properties.page(params[:page]).per(3)
     end
   end
 
@@ -80,23 +87,32 @@ class PropertiesController < ApplicationController
   def show
     cache_key = "property_#{params[:id]}"
     @property = Rails.cache.fetch(cache_key, expires_in: 10.minutes) do
-      Property.find(params[:id])
+      Property.includes(
+        images_attachments: :blob
+      ).find(params[:id])
     end
-
-    # @current_year_agreement = @property.agreements
   end
 
 
   def create
-    # @property = Property.new(property_params)
     @property = current_user.properties.build(property_params)
-    @property.user = current_user  # Assuming you have a `current_user` method for authentication
+    @property.user = current_user
 
     if @property.save
-      Rails.cache.delete('properties_all') # Invalidate the cache for the index view
-      redirect_to properties_path, notice: 'Property posted successfully!'
+      Rails.cache.delete("property/#{@property.id}/title")
+      Rails.cache.delete("property/#{@property.id}/city")
+      Rails.cache.delete("property/#{@property.id}/description")
+      Rails.cache.delete("property/#{@property.id}/address_line_1")
+      Rails.cache.delete("property/#{@property.id}/address_line_2")
+      Rails.cache.delete("properties_search_#{@property.title}_user_guest")
+      Rails.cache.delete("properties_search_#{@property.city}_user_guest")
+      Rails.cache.delete("properties_search_#{@property.description}_user_guest")
+      Rails.cache.delete("properties_search_#{@property.address_line_1}_user_guest")
+      Rails.cache.delete("properties_search_#{@property.address_line_2}_user_guest")
+      Rails.cache.delete('properties_all')
+      redirect_to owner_dashboard_properties_path, notice: 'Property posted successfully!'
     else
-      puts @property.errors.full_messages  # Log validation errors to the console
+      puts @property.errors.full_messages
       render :new
     end
   end
@@ -129,7 +145,7 @@ class PropertiesController < ApplicationController
     @property.destroy
     Rails.cache.delete("property_#{@property.id}") # Remove the specific property's cache
     Rails.cache.delete('properties_all') # Invalidate the cache for the index view
-    redirect_to properties_url, notice: 'Property was successfully destroyed.'
+    redirect_to owner_dashboard_properties_path, notice: 'Property was successfully destroyed.'
   end
 
   def show_agreement

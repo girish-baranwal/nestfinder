@@ -19,11 +19,7 @@
       <% end %>
     </div>
     <br>
-
-    <% if property.user == current_user %>
-      <%= link_to t('action.edit'), edit_property_path(property), class:"btn btn-secondary" %>
-      <%= link_to t('action.delete'), property, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
-    <% end %>
+    
     <br><br>
   <% end %>
 <% else %>

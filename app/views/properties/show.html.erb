@@ -24,12 +24,26 @@
 
 <br>
 
-<%= link_to 'Back to Properties', properties_path, class: "btn btn-secondary" %>
+<% if @property.user == current_user %>
+  <%= link_to t('action.edit'), edit_property_path(@property), class:"btn btn-secondary" %>
+  <%= link_to t('action.delete'), @property, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+<% end %>
+
+
+<% if params[:source] == 'tenant' %>
+  <%= link_to 'Back to Properties', properties_path, class: "btn btn-secondary" %>
+<% else %>
+  <%= link_to 'Back to My Properties', owner_dashboard_properties_path, class: "btn btn-secondary" %>
+<% end %>
+
 <% if user_signed_in? && current_user == @property.user%>
   <%= link_to 'Rental Agreement', property_agreements_path(@property), class: "btn btn-secondary" %>
 <% end %>
 
 <hr>
+
+<!-- Comments Section -->
+<h3>Comments</h3>
 
 <!-- Comment Form -->
 <% if user_signed_in? %>
@@ -37,28 +51,23 @@
     <%= link_to 'Contact Owner', contact_property_path(@property), class: "btn btn-primary" %>
   <% end %>
 
-  <div id="property" data-id="<%= @property.id %>">
-    <h3>Chat</h3>
-    <div id="messages"></div>
-    <form id="message-form">
-      <input type="hidden" id="receiver-id" value="<%= @property.user_id %>"> <!-- need to correct this -->
-      <label for="message-content"></label>
-      <input type="text" id="message-content" placeholder="Type a message..." required>
-      <button type="submit">Send</button>
-    </form>
-  </div>
+<!--  <div id="property" data-id="<%#= @property.id %>">-->
+<!--    <h3>Chat</h3>-->
+<!--    <div id="messages"></div>-->
+<!--    <form id="message-form">-->
+<!--      <input type="hidden" id="receiver-id" value="<%#= @property.user_id %>"> -->
+<!--      <label for="message-content"></label>-->
+<!--      <input type="text" id="message-content" placeholder="Type a message..." required>-->
+<!--      <button type="submit">Send</button>-->
+<!--    </form>-->
+<!--  </div>-->
 
-  <%= javascript_pack_tag 'chat' %>
+  <%#= javascript_pack_tag 'chat' %>
 
-
-
-  <h4>Add a Comment</h4>
   <%= render 'comments/form', property: @property, comment: Comment.new %>
-
+<% else %>
+  <p>Please login to post a comment!</p>
 <% end %>
-
-<!-- Comments Section -->
-<h3>Comments</h3>
 
 <% @property.comments.each do |comment| %>
   <div class="comment">

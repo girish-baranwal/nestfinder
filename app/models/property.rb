@@ -5,7 +5,7 @@ class Property < ApplicationRecord
   # before_action :authenticate_user!, except: [:index, :show]
 
   validates :title, presence: true
-  validates :price, presence: true
+  validates :price, presence: true, numericality: { greater_than: 0, message: "must be a positive number" }
   validates :description, presence: true
   validates :address_line_1, presence: true
   validates :city, presence: true
